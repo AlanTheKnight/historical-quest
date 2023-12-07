@@ -77,10 +77,10 @@ if config["Database"]["ENGINE"] == "django.db.backends.sqlite3":
             "NAME": BASE_DIR / config["Database"]["NAME"],
         }
     }
-elif config["Database"]["ENGINE"] == "django.db.backends.postgresql":
+elif config["Database"]["ENGINE"] == "django.db.backends.postgresql_psycopg2":
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.postgresql",
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
             "NAME": config["Database"]["NAME"],
             "USER": config["Database"]["USER"],
             "PASSWORD": config["Database"]["PASSWORD"],
@@ -125,6 +125,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+
+if not DEBUG:
+    STATIC_ROOT = BASE_DIR / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
