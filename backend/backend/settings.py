@@ -5,7 +5,7 @@ import toml
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load config.toml
-config = toml.load(BASE_DIR.parent / "config.toml")
+config = toml.load(BASE_DIR / "config.toml")
 
 
 # Quick-start development settings - unsuitable for production
@@ -135,8 +135,6 @@ if not DEBUG:
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-REST_FRAMEWORK = {"DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"]}
-
 MEDIA_URL = "/media/"
 MEDIA_ROOT = config["Django"]["MEDIA_ROOT"]
 
@@ -148,5 +146,5 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
-    # "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
