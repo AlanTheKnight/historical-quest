@@ -17,10 +17,18 @@ class StepSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ListQuestSerializer(serializers.ModelSerializer):
+class CompactQuestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
-        fields = ["id", "title", "description", "cover", "hidden", "completed_stats", "likes"]
+        fields = [
+            "id",
+            "title",
+            "description",
+            "cover",
+            "hidden",
+            # "completed_stats",
+            "likes",
+        ]
 
 
 class QuestSerializer(serializers.ModelSerializer):
@@ -34,7 +42,7 @@ class QuestSerializer(serializers.ModelSerializer):
             "description",
             "cover",
             "hidden",
-            "completed_stats",
+            # "completed_stats",
             "likes",
             "initial_step",
             "steps",
