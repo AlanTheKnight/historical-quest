@@ -7,9 +7,13 @@ from .models import Quest, CompletedStats, QuestLike
 
 
 class QuestsListView(ListAPIView):
-    serializer_class = serializers.CompactQuestSerializer
     queryset = Quest.objects.all()
     filterset_fields = ["hidden", "title"]
+
+    def get_serializer_class(self):
+        if self.request.query_params.get("compact", "True").lower() == "true":
+            return serializers.CompactQuestSerializer
+        return serializers.QuestSerializer
 
 
 class QuestRetrieveView(RetrieveAPIView):
