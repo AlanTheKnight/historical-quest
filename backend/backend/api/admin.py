@@ -37,7 +37,6 @@ class QuestAdmin(admin.ModelAdmin):
         "initial_step",
         "admin_thumbnail",
         "hidden",
-        "completed_stats",
         "likes",
     )
     admin_thumbnail = AdminThumbnail(image_field="cover", template="thumbnail.html")
@@ -46,7 +45,7 @@ class QuestAdmin(admin.ModelAdmin):
 
 @admin.register(Step)
 class StepAdmin(admin.ModelAdmin):
-    list_display = ("title", "id", "quest", "admin_thumbnail", "points")
+    list_display = ("title", "id", "quest", "admin_thumbnail")
     admin_thumbnail = AdminThumbnail(image_field="cover", template="thumbnail.html")
     inlines = [OptionInline]
     list_filter = ("quest",)
@@ -54,15 +53,9 @@ class StepAdmin(admin.ModelAdmin):
 
 @admin.register(Option)
 class OptionAdmin(admin.ModelAdmin):
-    list_display = ("text", "id", "step", "admin_thumbnail", "quest")
+    list_display = ("text", "id", "step", "admin_thumbnail", "quest", "points")
     admin_thumbnail = AdminThumbnail(image_field="after_cover", template="thumbnail.html")
     list_filter = ("step__quest",)
 
     def quest(self, obj):
         return obj.step.quest
-
-
-# @admin.register(CompletedStats)
-# class CompletedStatsAdmin(admin.ModelAdmin):
-#     list_display = ("quest", "id", "telegram_id", "started_at", "finished_at")
-#     list_filter = ("quest",)
