@@ -24,14 +24,23 @@ class StepInline(admin.TabularInline):
 @admin.register(Quest)
 class QuestAdmin(admin.ModelAdmin):
     inlines = [StepInline]
-    list_display = ("title", "description", "initial_step", "admin_thumbnail", "hidden", "completed_stats", "likes")
+    list_display = (
+        "id",
+        "title",
+        "description",
+        "initial_step",
+        "admin_thumbnail",
+        "hidden",
+        "completed_stats",
+        "likes",
+    )
     admin_thumbnail = AdminThumbnail(image_field="cover", template="thumbnail.html")
     list_filter = ("hidden",)
 
 
 @admin.register(Step)
 class StepAdmin(admin.ModelAdmin):
-    list_display = ("title", "quest", "admin_thumbnail")
+    list_display = ("id", "title", "quest", "admin_thumbnail")
     admin_thumbnail = AdminThumbnail(image_field="cover", template="thumbnail.html")
     inlines = [OptionInline]
     list_filter = ("quest",)
@@ -39,7 +48,7 @@ class StepAdmin(admin.ModelAdmin):
 
 @admin.register(Option)
 class OptionAdmin(admin.ModelAdmin):
-    list_display = ("text", "step", "admin_thumbnail", "quest")
+    list_display = ("id", "text", "step", "admin_thumbnail", "quest")
     admin_thumbnail = AdminThumbnail(image_field="after_cover", template="thumbnail.html")
     list_filter = ("step__quest",)
 
@@ -49,5 +58,5 @@ class OptionAdmin(admin.ModelAdmin):
 
 @admin.register(CompletedStats)
 class CompletedStatsAdmin(admin.ModelAdmin):
-    list_display = ("quest", "telegram_id", "started_at", "finished_at")
+    list_display = ("id", "quest", "telegram_id", "started_at", "finished_at")
     list_filter = ("quest",)
