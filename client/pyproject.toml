@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "client"
+version = "1.0.0"
+description = "Telegram bot with historical quests"
+authors = ["Maksim Gusev <51376126+AlanTheKnight@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+aiogram = "^3.2.0"
+toml = "^0.10.2"
+requests = "^2.31.0"
+grequests = "^0.7.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
