@@ -47,7 +47,10 @@ def get_aftertext_keyboard(data: str):
     return builder.as_markup()
 
 
-@router.message(Command("quests"))
+
+
+
+@router.message(Command("quests", "start"))
 async def command_start_handler(message: Message) -> None:
     quests = await qs.data()
 
