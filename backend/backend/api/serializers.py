@@ -20,7 +20,7 @@ class StepSerializer(serializers.ModelSerializer):
 class EndingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ending
-        exclude = "quest"
+        exclude = ["quest"]
 
 
 class CompactQuestSerializer(serializers.ModelSerializer):
