@@ -27,6 +27,7 @@ class Option(models.Model):
         ],
         blank=True,
     )
+    points = models.IntegerField(verbose_name="Очки", default=0)
 
     step = models.ForeignKey("Step", on_delete=models.CASCADE, related_name="options", verbose_name="Шаг")
 
@@ -52,6 +53,21 @@ class Step(models.Model):
     class Meta:
         verbose_name = "Шаг"
         verbose_name_plural = "Шаги"
+
+
+class Ending(models.Model):
+    quest = models.ForeignKey("Quest", on_delete=models.CASCADE, related_name="endings", verbose_name="Квест")
+    condition = models.CharField(max_length=255, verbose_name="Условие")
+    cover = ProcessedImageField(
+        upload_to="covers",
+        format="PNG",
+        options={"quality": 60},
+        processors=[
+            SmartResize(1080, 720, upscale=False),
+        ],
+        blank=True,
+    )
+    text = models.TextField(verbose_name="Текст")
 
 
 class Quest(models.Model):
@@ -105,28 +121,8 @@ class Quest(models.Model):
         ]
 
     @property
-    def completed_stats(self):
-        return CompletedStats.objects.filter(quest=self, finished_at__isnull=False).count()
-
-    @property
     def likes(self):
         return QuestLike.objects.filter(quest=self).count()
-
-
-class CompletedStats(models.Model):
-    """Статистика прохождения квестов пользователями."""
-
-    telegram_id = models.IntegerField(verbose_name="Telegram ID пользователя")
-    quest = models.ForeignKey("Quest", on_delete=models.CASCADE, verbose_name="Квест")
-    started_at = models.DateTimeField(auto_now_add=True, verbose_name="Начат")
-    finished_at = models.DateTimeField(null=True, blank=True, verbose_name="Завершен")
-
-    def __str__(self) -> str:
-        return f"{self.telegram_id} - {self.quest}"
-
-    class Meta:
-        verbose_name = "Прохождения"
-        verbose_name_plural = "Прохождения"
 
 
 class QuestLike(models.Model):

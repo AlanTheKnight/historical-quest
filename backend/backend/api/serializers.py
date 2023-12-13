@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Quest, Step, Option, CompletedStats, QuestLike
+from .models import Quest, Step, Option, Ending, QuestLike
 
 
 class OptionSerializer(serializers.ModelSerializer):
@@ -17,6 +17,12 @@ class StepSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class EndingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ending
+        exclude = "quest"
+
+
 class CompactQuestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quest
@@ -26,35 +32,17 @@ class CompactQuestSerializer(serializers.ModelSerializer):
             "description",
             "cover",
             "hidden",
-            # "completed_stats",
             "likes",
         ]
 
 
 class QuestSerializer(serializers.ModelSerializer):
     steps = StepSerializer(many=True)
+    endings = EndingSerializer(many=True)
 
     class Meta:
         model = Quest
-        fields = [
-            "id",
-            "title",
-            "description",
-            "cover",
-            "hidden",
-            # "completed_stats",
-            "likes",
-            "initial_step",
-            "steps",
-            "sum_rules",
-        ]
-
-
-class CompletedStatsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CompletedStats
-        fields = "__all__"
-        read_only_fields = ["id", "created_at"]
+        fields = ["id", "title", "description", "cover", "hidden", "likes", "initial_step", "steps", "endings"]
 
 
 class ToggleQuestLikeSerializer(serializers.ModelSerializer):

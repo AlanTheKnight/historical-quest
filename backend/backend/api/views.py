@@ -1,9 +1,9 @@
-from rest_framework.generics import ListAPIView, GenericAPIView, CreateAPIView, RetrieveUpdateAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, GenericAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import status
 
 from . import serializers
-from .models import Quest, CompletedStats, QuestLike
+from .models import Quest, QuestLike
 
 
 class QuestsListView(ListAPIView):
@@ -23,16 +23,6 @@ class QuestRetrieveView(RetrieveAPIView):
         if self.request.query_params.get("compact", "False").lower() == "true":
             return serializers.CompactQuestSerializer
         return serializers.QuestSerializer
-
-
-class CompletedStatsView(CreateAPIView):
-    serializer_class = serializers.CompletedStatsSerializer
-    queryset = CompletedStats.objects.all()
-
-
-class CompletedStatsRetrieveUpdateView(RetrieveUpdateAPIView):
-    serializer_class = serializers.CompletedStatsSerializer
-    queryset = CompletedStats.objects.all()
 
 
 class ToggleQuestLikeView(GenericAPIView):

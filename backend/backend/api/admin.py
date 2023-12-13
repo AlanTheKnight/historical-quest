@@ -1,7 +1,7 @@
 from django.contrib import admin
 from imagekit.admin import AdminThumbnail
 
-from .models import Quest, Step, Option, CompletedStats
+from .models import Quest, Step, Option, Ending
 
 
 admin.site.site_header = "Исторические Квесты"
@@ -21,12 +21,18 @@ class StepInline(admin.TabularInline):
     readonly_fields = ("id",)
 
 
+class EndingInline(admin.TabularInline):
+    model = Ending
+    extra = 1
+    readonly_fields = ("id",)
+
+
 @admin.register(Quest)
 class QuestAdmin(admin.ModelAdmin):
     inlines = [StepInline]
     list_display = (
-        "id",
         "title",
+        "id",
         "description",
         "initial_step",
         "admin_thumbnail",
@@ -40,7 +46,7 @@ class QuestAdmin(admin.ModelAdmin):
 
 @admin.register(Step)
 class StepAdmin(admin.ModelAdmin):
-    list_display = ("id", "title", "quest", "admin_thumbnail")
+    list_display = ("title", "id", "quest", "admin_thumbnail", "points")
     admin_thumbnail = AdminThumbnail(image_field="cover", template="thumbnail.html")
     inlines = [OptionInline]
     list_filter = ("quest",)
@@ -48,7 +54,7 @@ class StepAdmin(admin.ModelAdmin):
 
 @admin.register(Option)
 class OptionAdmin(admin.ModelAdmin):
-    list_display = ("id", "text", "step", "admin_thumbnail", "quest")
+    list_display = ("text", "id", "step", "admin_thumbnail", "quest")
     admin_thumbnail = AdminThumbnail(image_field="after_cover", template="thumbnail.html")
     list_filter = ("step__quest",)
 
@@ -56,7 +62,7 @@ class OptionAdmin(admin.ModelAdmin):
         return obj.step.quest
 
 
-@admin.register(CompletedStats)
-class CompletedStatsAdmin(admin.ModelAdmin):
-    list_display = ("id", "quest", "telegram_id", "started_at", "finished_at")
-    list_filter = ("quest",)
+# @admin.register(CompletedStats)
+# class CompletedStatsAdmin(admin.ModelAdmin):
+#     list_display = ("quest", "id", "telegram_id", "started_at", "finished_at")
+#     list_filter = ("quest",)
