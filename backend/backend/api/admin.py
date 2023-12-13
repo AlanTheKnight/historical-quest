@@ -29,7 +29,7 @@ class EndingInline(admin.TabularInline):
 
 @admin.register(Quest)
 class QuestAdmin(admin.ModelAdmin):
-    inlines = [StepInline]
+    inlines = [StepInline, EndingInline]
     list_display = (
         "title",
         "id",
