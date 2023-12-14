@@ -48,7 +48,9 @@ class ResultStorage:
         self._data[(telegram_id, quest_id)][1].append(step_id)
 
     def step_done(self, telegram_id: int, quest_id: int, step_id: int) -> None:
-        return (telegram_id, quest_id) in self._data and step_id in self._data[(telegram_id, quest_id)][1]
+        if (telegram_id, quest_id) not in self._data:
+            return False
+        return step_id in self._data[(telegram_id, quest_id)][1]
 
     def pop(self, telegram_id: int, quest_id: int) -> int:
         return self._data.pop((telegram_id, quest_id))
